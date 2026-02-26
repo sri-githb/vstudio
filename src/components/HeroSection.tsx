@@ -1,86 +1,103 @@
-import heroImage from "@/assets/hero-illustration.png";
+import heroVideoDesktop from "@/assets/hero-illustration.mp4";
+import heroVideoMobile from "@/assets/hero-illustration1.mp4";
 
-const FlowerPetal = ({ className, delay, size = 20 }: { className?: string; delay: string; size?: number }) => (
-  <svg
-    className={`absolute opacity-40 flower-fall pointer-events-none ${className}`}
+const FloatingShape = ({ className, delay }: { className?: string; delay: string }) => (
+  <div
+    className={`absolute opacity-20 float-slow ${className}`}
     style={{ animationDelay: delay }}
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
+  >
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+      <circle cx="30" cy="30" r="25" stroke="currentColor" strokeWidth="1" fill="currentColor" opacity="0.1" />
+    </svg>
+  </div>
+);
+
+const MehendiPattern = ({ position }: { position: string }) => (
+  <svg
+    className={`absolute ${position} opacity-10 pointer-events-none`}
+    width="100"
+    height="100"
+    viewBox="0 0 100 100"
     fill="none"
   >
     <path
-      d="M12 2C12 2 14 6 14 8C14 10 12 12 12 12C12 12 10 10 10 8C10 6 12 2 12 2Z"
-      fill="currentColor"
-      opacity="0.6"
+      d="M10 10 Q30 20 50 10 T90 10 M10 20 Q40 30 70 20 T90 20 M10 30 Q50 40 90 30"
+      stroke="currentColor"
+      strokeWidth="0.5"
     />
     <path
-      d="M12 12C12 12 16 10 18 10C20 10 22 12 22 12C22 12 20 14 18 14C16 14 12 12 12 12Z"
-      fill="currentColor"
-      opacity="0.5"
+      d="M10 40 Q30 50 50 40 T90 40 M10 50 Q40 60 70 50 T90 50"
+      stroke="currentColor"
+      strokeWidth="0.5"
     />
-    <path
-      d="M12 12C12 12 14 16 14 18C14 20 12 22 12 22C12 22 10 20 10 18C10 16 12 12 12 12Z"
-      fill="currentColor"
-      opacity="0.6"
-    />
-    <path
-      d="M12 12C12 12 8 10 6 10C4 10 2 12 2 12C2 12 4 14 6 14C8 14 12 12 12 12Z"
-      fill="currentColor"
-      opacity="0.5"
-    />
-    <circle cx="12" cy="12" r="2" fill="currentColor" opacity="0.8" />
   </svg>
 );
 
 const HeroSection = () => {
-  const petals = Array.from({ length: 18 }, (_, i) => ({
-    left: `${(i * 17 + 5) % 100}%`,
-    delay: `${(i * 0.7) % 6}s`,
-    size: 14 + (i % 4) * 6,
-    color: ["text-blush", "text-peach", "text-sage", "text-mustard/60"][i % 4],
+  const shapes = Array.from({ length: 12 }, (_, i) => ({
+    left: `${(i * 8 + 10) % 90}%`,
+    top: `${(i * 12 + 20) % 70}%`,
+    delay: `${(i * 0.5) % 4}s`,
+    color: ["text-blush", "text-peach", "text-sage", "text-mustard/40"][i % 4],
   }));
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden canvas-texture cursor-paintbrush">
-      {/* Hero image as full background */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src={heroImage}
-          alt="Fashion design studio workspace with sketches, fabrics, paintbrushes and flowers - acrylic painting style"
-          className="w-full h-full object-cover object-center"
-          loading="eager"
-        />
-        {/* Soft overlay so text is readable */}
-        <div className="absolute inset-0 bg-peach/50" />
-        <div className="absolute inset-0 bg-gradient-to-b from-peach/60 via-ivory/30 to-ivory/80" />
-      </div>
+      {/* Mehendi patterns in corners */}
+      <MehendiPattern position="top-4 left-4" />
+      <MehendiPattern position="top-4 right-4" />
+      <MehendiPattern position="bottom-4 left-4" />
+      <MehendiPattern position="bottom-4 right-4" />
 
-      {/* Flower petal shower */}
-      {petals.map((p, i) => (
-        <div key={i} style={{ left: p.left }} className="absolute">
-          <FlowerPetal
-            className={p.color}
-            delay={p.delay}
-            size={p.size}
-          />
+      {/* Floating pastel shapes */}
+      {shapes.map((s, i) => (
+        <div key={i} style={{ left: s.left, top: s.top }} className="absolute">
+          <FloatingShape className={s.color} delay={s.delay} />
         </div>
       ))}
 
-      {/* Text content */}
-      <div className="relative z-10 text-center px-6">
-        <div className="inline-block px-8 py-4 rounded-3xl bg-peach/40 backdrop-blur-sm">
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-bold text-foreground animate-fade-in-up leading-none tracking-tight">
-            Varsha
-          </h1>
+      {/* Hero illustration background video */}
+      <div className="absolute inset-0 z-0">
+        {/* Mobile / tablet video */}
+        <video
+          src={heroVideoMobile}
+          className="block md:hidden w-full h-full object-cover object-center"
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
+        {/* Desktop video */}
+        <video
+          src={heroVideoDesktop}
+          className="hidden md:block w-full h-full object-contain object-center"
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
+        {/* Soft gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-ivory/80 via-peach/30 to-blush/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ivory/60 to-transparent" />
+      </div>
+
+      {/* Text content - centered over illustration */}
+      <div className="relative z-10 text-center px-6 max-w-4xl flex flex-col items-center">
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-foreground animate-fade-in-up leading-tight">
+          <span className="block">Varsha K</span>
+          <span className="block font-body tracking-[0.2em] text-lg md:text-2xl mt-2">
+            ATELIER
+          </span>
+        </h1>
+        <div className="mt-4 inline-block px-6 py-3 rounded-2xl bg-background/50 backdrop-blur-md animate-fade-in-up-delay-1">
+          <p className="text-xl md:text-3xl font-body font-light text-foreground">
+            Fashion Designer Portfolio
+          </p>
         </div>
-        <p className="text-lg md:text-2xl font-body font-light text-muted-foreground mt-4 animate-fade-in-up-delay-1 drop-shadow-sm">
-          Fashion Designer Portfolio
-        </p>
         <a
           href="#collections"
-          className="inline-block mt-6 px-8 py-3 bg-primary text-primary-foreground font-body font-semibold rounded-full 
-            hover:bg-mustard hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl 
+          className="inline-block mt-8 px-10 py-4 bg-sage text-foreground font-body font-semibold rounded-full
+            hover:bg-mustard/80 hover:scale-105 transition-all duration-500 shadow-lg hover:shadow-xl
             animate-fade-in-up-delay-2"
         >
           View Collections
@@ -88,7 +105,7 @@ const HeroSection = () => {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce z-10">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce z-10">
         <div className="w-6 h-10 rounded-full border-2 border-foreground/30 flex items-start justify-center p-1">
           <div className="w-1.5 h-3 bg-foreground/40 rounded-full" />
         </div>
