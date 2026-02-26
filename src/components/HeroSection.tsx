@@ -1,27 +1,80 @@
 import heroImage from "@/assets/hero-illustration.png";
 
-const FloatingBrushStroke = ({ className }: { className?: string }) => (
-  <div className={`absolute rounded-full opacity-30 animate-gentle-pulse ${className}`} />
+const FlowerPetal = ({ className, delay, size = 20 }: { className?: string; delay: string; size?: number }) => (
+  <svg
+    className={`absolute opacity-40 flower-fall pointer-events-none ${className}`}
+    style={{ animationDelay: delay }}
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+  >
+    <path
+      d="M12 2C12 2 14 6 14 8C14 10 12 12 12 12C12 12 10 10 10 8C10 6 12 2 12 2Z"
+      fill="currentColor"
+      opacity="0.6"
+    />
+    <path
+      d="M12 12C12 12 16 10 18 10C20 10 22 12 22 12C22 12 20 14 18 14C16 14 12 12 12 12Z"
+      fill="currentColor"
+      opacity="0.5"
+    />
+    <path
+      d="M12 12C12 12 14 16 14 18C14 20 12 22 12 22C12 22 10 20 10 18C10 16 12 12 12 12Z"
+      fill="currentColor"
+      opacity="0.6"
+    />
+    <path
+      d="M12 12C12 12 8 10 6 10C4 10 2 12 2 12C2 12 4 14 6 14C8 14 12 12 12 12Z"
+      fill="currentColor"
+      opacity="0.5"
+    />
+    <circle cx="12" cy="12" r="2" fill="currentColor" opacity="0.8" />
+  </svg>
 );
 
 const HeroSection = () => {
+  const petals = Array.from({ length: 18 }, (_, i) => ({
+    left: `${(i * 17 + 5) % 100}%`,
+    delay: `${(i * 0.7) % 6}s`,
+    size: 14 + (i % 4) * 6,
+    color: ["text-blush", "text-peach", "text-sage", "text-mustard/60"][i % 4],
+  }));
+
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-end overflow-hidden canvas-texture pb-0">
-      {/* Soft gradient background matching image edges */}
-      <div className="absolute inset-0 bg-gradient-to-b from-peach/40 via-blush/20 to-ivory" />
+    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden canvas-texture cursor-paintbrush">
+      {/* Hero image as full background */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src={heroImage}
+          alt="Fashion design studio workspace with sketches, fabrics, paintbrushes and flowers - acrylic painting style"
+          className="w-full h-full object-cover object-center"
+          loading="eager"
+        />
+        {/* Soft overlay so text is readable */}
+        <div className="absolute inset-0 bg-peach/50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-peach/60 via-ivory/30 to-ivory/80" />
+      </div>
 
-      {/* Floating brush stroke elements */}
-      <FloatingBrushStroke className="top-16 left-8 w-32 h-8 bg-blush float-slow" />
-      <FloatingBrushStroke className="top-32 right-16 w-24 h-6 bg-sage float-medium" />
-      <FloatingBrushStroke className="top-1/4 left-1/3 w-20 h-5 bg-mustard/50 float-slow" />
-      <FloatingBrushStroke className="top-20 right-1/3 w-28 h-7 bg-blush/60 float-medium" />
+      {/* Flower petal shower */}
+      {petals.map((p, i) => (
+        <div key={i} style={{ left: p.left }} className="absolute">
+          <FlowerPetal
+            className={p.color}
+            delay={p.delay}
+            size={p.size}
+          />
+        </div>
+      ))}
 
-      {/* Text content - centered on top */}
-      <div className="relative z-10 text-center mt-24 md:mt-32 mb-8 px-6">
-        <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-bold text-foreground animate-fade-in-up leading-none tracking-tight">
-          Varsha
-        </h1>
-        <p className="text-lg md:text-2xl font-body font-light text-muted-foreground mt-3 animate-fade-in-up-delay-1">
+      {/* Text content */}
+      <div className="relative z-10 text-center px-6">
+        <div className="inline-block px-8 py-4 rounded-3xl bg-peach/40 backdrop-blur-sm">
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-bold text-foreground animate-fade-in-up leading-none tracking-tight">
+            Varsha
+          </h1>
+        </div>
+        <p className="text-lg md:text-2xl font-body font-light text-muted-foreground mt-4 animate-fade-in-up-delay-1 drop-shadow-sm">
           Fashion Designer Portfolio
         </p>
         <a
@@ -32,21 +85,6 @@ const HeroSection = () => {
         >
           View Collections
         </a>
-      </div>
-
-      {/* Hero image - full width, merges with background */}
-      <div className="relative z-[2] w-full mt-auto animate-fade-in-up-delay-1">
-        {/* Top fade gradient to merge image into background */}
-        <div className="absolute top-0 left-0 right-0 h-32 md:h-48 bg-gradient-to-b from-ivory/90 via-ivory/40 to-transparent z-10 pointer-events-none" />
-        {/* Side fade gradients */}
-        <div className="absolute top-0 bottom-0 left-0 w-16 md:w-32 bg-gradient-to-r from-ivory/80 to-transparent z-10 pointer-events-none" />
-        <div className="absolute top-0 bottom-0 right-0 w-16 md:w-32 bg-gradient-to-l from-ivory/80 to-transparent z-10 pointer-events-none" />
-        <img
-          src={heroImage}
-          alt="Fashion design studio workspace with sketches, fabrics, paintbrushes and flowers - acrylic painting style"
-          className="w-full h-[50vh] md:h-[60vh] object-cover object-center"
-          loading="eager"
-        />
       </div>
 
       {/* Scroll indicator */}
