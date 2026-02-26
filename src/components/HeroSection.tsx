@@ -6,52 +6,51 @@ const FloatingBrushStroke = ({ className }: { className?: string }) => (
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden canvas-texture">
-      {/* Soft gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-ivory via-peach/20 to-blush/30" />
+    <section className="relative min-h-screen flex flex-col items-center justify-end overflow-hidden canvas-texture pb-0">
+      {/* Soft gradient background matching image edges */}
+      <div className="absolute inset-0 bg-gradient-to-b from-peach/40 via-blush/20 to-ivory" />
 
       {/* Floating brush stroke elements */}
-      <FloatingBrushStroke className="top-20 left-10 w-32 h-8 bg-blush float-slow" />
-      <FloatingBrushStroke className="top-40 right-20 w-24 h-6 bg-sage float-medium" />
-      <FloatingBrushStroke className="bottom-32 left-1/4 w-40 h-10 bg-peach float-fast" />
-      <FloatingBrushStroke className="top-1/3 right-1/3 w-20 h-5 bg-mustard/50 float-slow" />
-      <FloatingBrushStroke className="bottom-20 right-10 w-28 h-7 bg-blush/60 float-medium" />
+      <FloatingBrushStroke className="top-16 left-8 w-32 h-8 bg-blush float-slow" />
+      <FloatingBrushStroke className="top-32 right-16 w-24 h-6 bg-sage float-medium" />
+      <FloatingBrushStroke className="top-1/4 left-1/3 w-20 h-5 bg-mustard/50 float-slow" />
+      <FloatingBrushStroke className="top-20 right-1/3 w-28 h-7 bg-blush/60 float-medium" />
 
-      <div className="relative z-10 container mx-auto px-6 flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
-        {/* Text content */}
-        <div className="flex-1 text-center lg:text-left">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-foreground animate-fade-in-up leading-tight">
-            Varsha
-          </h1>
-          <p className="text-xl md:text-2xl font-body font-light text-muted-foreground mt-4 animate-fade-in-up-delay-1">
-            Fashion Designer Portfolio
-          </p>
-          <a
-            href="#collections"
-            className="inline-block mt-8 px-8 py-4 bg-primary text-primary-foreground font-body font-semibold rounded-full 
-              hover:bg-mustard hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl 
-              animate-fade-in-up-delay-2"
-          >
-            View Collections
-          </a>
-        </div>
+      {/* Text content - centered on top */}
+      <div className="relative z-10 text-center mt-24 md:mt-32 mb-8 px-6">
+        <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-bold text-foreground animate-fade-in-up leading-none tracking-tight">
+          Varsha
+        </h1>
+        <p className="text-lg md:text-2xl font-body font-light text-muted-foreground mt-3 animate-fade-in-up-delay-1">
+          Fashion Designer Portfolio
+        </p>
+        <a
+          href="#collections"
+          className="inline-block mt-6 px-8 py-3 bg-primary text-primary-foreground font-body font-semibold rounded-full 
+            hover:bg-mustard hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl 
+            animate-fade-in-up-delay-2"
+        >
+          View Collections
+        </a>
+      </div>
 
-        {/* Hero illustration */}
-        <div className="flex-1 max-w-xl lg:max-w-2xl animate-fade-in-up-delay-1">
-          <div className="relative">
-            <div className="absolute -inset-4 bg-gradient-to-br from-blush/40 via-peach/30 to-sage/30 rounded-3xl blur-2xl" />
-            <img
-              src={heroImage}
-              alt="Varsha - Fashion designer sketching in her studio, acrylic painting illustration"
-              className="relative rounded-2xl shadow-2xl w-full object-cover"
-              loading="eager"
-            />
-          </div>
-        </div>
+      {/* Hero image - full width, merges with background */}
+      <div className="relative z-[2] w-full mt-auto animate-fade-in-up-delay-1">
+        {/* Top fade gradient to merge image into background */}
+        <div className="absolute top-0 left-0 right-0 h-32 md:h-48 bg-gradient-to-b from-ivory/90 via-ivory/40 to-transparent z-10 pointer-events-none" />
+        {/* Side fade gradients */}
+        <div className="absolute top-0 bottom-0 left-0 w-16 md:w-32 bg-gradient-to-r from-ivory/80 to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 bottom-0 right-0 w-16 md:w-32 bg-gradient-to-l from-ivory/80 to-transparent z-10 pointer-events-none" />
+        <img
+          src={heroImage}
+          alt="Fashion design studio workspace with sketches, fabrics, paintbrushes and flowers - acrylic painting style"
+          className="w-full h-[50vh] md:h-[60vh] object-cover object-center"
+          loading="eager"
+        />
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce z-10">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce z-10">
         <div className="w-6 h-10 rounded-full border-2 border-foreground/30 flex items-start justify-center p-1">
           <div className="w-1.5 h-3 bg-foreground/40 rounded-full" />
         </div>
